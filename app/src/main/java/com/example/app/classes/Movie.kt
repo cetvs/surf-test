@@ -16,16 +16,6 @@ class Movie  {
     override fun toString(): String {
         return name!!
     }
-    constructor(id: Int, name: String?, description: String?,
-                img: Int?,
-                favorite : Boolean = false)
-    {
-        this.id  = id
-        this.name = name
-        this.description = description
-        this.img = img
-        this.favorite = favorite
-    }
 
     constructor(id: Int, name: String?, description: String?,
                 poster_path: String?,

@@ -9,6 +9,7 @@ import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -31,31 +32,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     lateinit var simpleApi: SimpleApi
     var refreshString = ""
 
-    fun emptyQuery( simpleApi: SimpleApi)
-    {
-        for (i in 505..525) {
-            var call: Call<Movie> = simpleApi.getMovie(i)
-            //var imageCall: Call<Image> = simpleApi.getImage(i)
-//            lateinit var movie :Movie
 
-            call.enqueue(object : Callback<Movie> {
-                override fun onFailure(call: Call<Movie>, t: Throwable) {
-                    Log.v("retrofit", "call failed")
-                }
-
-                override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
-                    var lst = myRecyclerAdapter.getList()
-                    if (response.isSuccessful()) {
-                        var movie = Movie(response.body()!!.id, response.body()!!.name,
-                                response.body()!!.description,
-                                response.body()!!.poster_path)
-                        lst.add(movie)
-                        myRecyclerAdapter.notifyItemInserted(lst.size - 1 )
-                    }
-                }
-            })
-        }
-    }
+    lateinit var recyclerFragment: RecyclerFragment
 
     fun getPopular(simpleApi: SimpleApi) {
         var call: Call<MoviesList> = simpleApi.getPopularMovie()
@@ -75,7 +53,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         call.enqueue(object : Callback<MoviesList> {
 
             override fun onFailure(call: Call<MoviesList>, t: Throwable) {
-
             }
 
             override fun onResponse(call: Call<MoviesList>, response: Response<MoviesList>) {
@@ -121,9 +98,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             swipeContainer.setRefreshing(false)
         })
 
-//        var fTrans = getFragmentManager().beginTransaction();
-//        fTrans.add()
-
+//        supportFragmentManager.commit {
+//            replace<RecyclerFragment>(R.id.frameLayout)
+//            setReorderingAllowed(true)
+//            addToBackStack("name") // name can be null
+//        }
         var txt = findViewById<TextView>(R.id.textView)
     }
 
