@@ -3,16 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rv_movie"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_movie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <!--        android:layout_constraintVertical_bias="0.645"-->
 <!--        android:layout_constraintBottom_toBottomOf="parent"-->
 <!--        android:layout_constraintEnd_toEndOf="parent"-->
 <!--        android:layout_constraintStart_toStartOf="parent"-->
 <!--        android:layout_constraintTop_toTopOf="parent">-->
-
-<!--    </androidx.recyclerview.widget.RecyclerView>-->
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

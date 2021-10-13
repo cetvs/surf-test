@@ -9,7 +9,9 @@ import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -60,6 +62,14 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 myRecyclerAdapter.setData(list)
 
                 var movies = response.body()!!.results
+
+                if (movies!!.size == 0)
+                    supportFragmentManager.commit {
+                    add<EmptyFragment>(R.id.place_holder, "fragment")
+                    setReorderingAllowed(true)
+                    addToBackStack("name") // name can be null
+                }
+
                 for (i in 0..movies!!.size - 1) {
                     var movie = Movie(movies[i].id, movies[i].name,
                             movies[i].description,
@@ -80,29 +90,33 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         var retrofit : Retrofit=Retrofit.Builder().baseUrl(Constants.BASE_URL)
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build()
-
         simpleApi= retrofit.create(SimpleApi::class.java)
         getPopular(simpleApi)
-
-
+        var movie = Movie(1,"test","test", "");
         myRecyclerAdapter = MyRecyclerAdapter(this, arrayListOf())
         recyclerView = findViewById<RecyclerView>(R.id.rv_movie)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = myRecyclerAdapter
 
-        var swipeContainer = findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
+
+
+        var swipeContainer = findViewById<SwipeRefreshLayout>(R.id.swipe_container)
 
         swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             searchMovie(simpleApi, refreshString)
-            swipeContainer.setRefreshing(false)
-        })
+            swipeContainer.setRefreshing(false) })
 
 //        supportFragmentManager.commit {
-//            replace<RecyclerFragment>(R.id.frameLayout)
+//            add<EmptyFragment>(R.id.place_holder, "fragment")
 //            setReorderingAllowed(true)
 //            addToBackStack("name") // name can be null
 //        }
+
+//
+//        val fragment: EmptyFragment =
+//                supportFragmentManager.findFragmentByTag("fragment") as EmptyFragment
+
         var txt = findViewById<TextView>(R.id.textView)
     }
 
