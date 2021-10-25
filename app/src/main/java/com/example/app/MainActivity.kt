@@ -4,15 +4,13 @@ package com.example.app
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.add
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.app.adapters.MyRecyclerAdapter
@@ -35,7 +33,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     var refreshString = ""
 
 
-    lateinit var recyclerFragment: RecyclerFragment
+//    lateinit var recyclerFragment: RecyclerFragment
 
     fun getPopular(simpleApi: SimpleApi) {
         var call: Call<MoviesList> = simpleApi.getPopularMovie()
@@ -65,18 +63,20 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                 if (movies!!.size == 0)
                     supportFragmentManager.commit {
-                    add<EmptyFragment>(R.id.place_holder, "fragment")
+                    replace<EmptyFragment>(R.id.place_holder, "EmptyFragment")
                     setReorderingAllowed(true)
-                    addToBackStack("name") // name can be null
+                    addToBackStack(null) // name can be null
                 }
+                else {
+                    RecyclerFragment.getNewInstance(myRecyclerAdapter)
 
-                for (i in 0..movies!!.size - 1) {
-                    var movie = Movie(movies[i].id, movies[i].name,
-                            movies[i].description,
-                            movies[i].poster_path)
-                    list.add(movie)
-
-                    myRecyclerAdapter.notifyItemInserted(list.size - 1)
+                    for (i in 0..movies!!.size - 1) {
+                        var movie = Movie(movies[i].id, movies[i].name,
+                                movies[i].description,
+                                movies[i].poster_path)
+                        list.add(movie)
+                        myRecyclerAdapter.notifyItemInserted(list.size - 1)
+                    }
                 }
             }
         })
@@ -91,15 +91,29 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build()
         simpleApi= retrofit.create(SimpleApi::class.java)
-        getPopular(simpleApi)
+        //getPopular(simpleApi)
         var movie = Movie(1,"test","test", "");
-        myRecyclerAdapter = MyRecyclerAdapter(this, arrayListOf())
-        recyclerView = findViewById<RecyclerView>(R.id.rv_movie)
+        myRecyclerAdapter = MyRecyclerAdapter(this, arrayListOf(movie))
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = myRecyclerAdapter
+//        recyclerView = findViewById<RecyclerView>(R.id.rv_movie)
+//
+//        recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView.adapter = myRecyclerAdapter
+
+        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+        var recyclerFragment = RecyclerFragment.getNewInstance(myRecyclerAdapter)
+        ft.add(R.id.place_holder, recyclerFragment)
+        ft.commit()
+
+//        supportFragmentManager.commit {
+//            replace<EmptyFragment>(R.id.place_holder, "fragment")
+//            setReorderingAllowed(true)
+//            addToBackStack("name") // name can be null
+//        }
 
 
+//        var recyclerFragment = RecyclerFragment()
+//        recyclerFragment.arguments?.putSerializable ("recyclerAdapter", myRecyclerAdapter)
 
         var swipeContainer = findViewById<SwipeRefreshLayout>(R.id.swipe_container)
 

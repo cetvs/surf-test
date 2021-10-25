@@ -11,11 +11,12 @@ import com.bumptech.glide.Glide
 import com.example.app.R
 import com.example.app.api.Constants.Companion.Base_URL_Image
 import com.example.app.classes.Movie
+import java.io.Serializable
 
 
 //make MutableList
 class MyRecyclerAdapter(private val context: Context, private var list: ArrayList<Movie>)
-    : RecyclerView.Adapter<MyRecyclerAdapter.MyRecyclerHolder>(){
+    : Serializable, RecyclerView.Adapter<MyRecyclerAdapter.MyRecyclerHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerHolder {
         val itemView =
