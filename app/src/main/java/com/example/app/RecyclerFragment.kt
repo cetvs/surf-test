@@ -55,6 +55,7 @@ class RecyclerFragment : Fragment(), OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
+        //Toast.makeText(activity, "1111", Toast.LENGTH_SHORT).show()
         Toast.makeText(activity, "${myRecyclerAdapter.getItem(position).toString()}", Toast.LENGTH_SHORT).show()
     }
 }

@@ -138,4 +138,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         searchMovie(simpleApi, refreshString)
         return true
     }
+
+
 }
