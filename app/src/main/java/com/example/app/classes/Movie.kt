@@ -28,6 +28,7 @@ class Movie  {
         this.favorite = favorite
     }
 
+
 //    fun setImage(img: Int?){
 //        this.img =  img
 //    }

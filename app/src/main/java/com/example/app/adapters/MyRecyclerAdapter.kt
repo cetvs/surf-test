@@ -15,7 +15,8 @@ import java.io.Serializable
 
 
 //make MutableList
-class MyRecyclerAdapter(private val context: Context, private var list: ArrayList<Movie>)
+class MyRecyclerAdapter(private val context: Context, private var list: ArrayList<Movie>,
+                        var listener: OnItemClickListener? = null)
     : Serializable, RecyclerView.Adapter<MyRecyclerAdapter.MyRecyclerHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerHolder {
@@ -27,11 +28,11 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
 
     override fun getItemCount(): Int = list.size
 
-//    fun addWithUpdate(movie : Movie)
-//    {
-//        list.add(movie)
-//        notifyItemInserted(list.size - 1)
-//    }
+
+    fun getItem(index: Int) : Movie
+    {
+        return list[index]
+    }
 
     fun getList() : ArrayList<Movie>
     {
@@ -52,7 +53,7 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
 
 
     inner class MyRecyclerHolder(itemView: View):
-            RecyclerView.ViewHolder(itemView)
+            RecyclerView.ViewHolder(itemView), View.OnClickListener
     {
 
         private var descriptionView: TextView?= null
@@ -61,6 +62,7 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
         private var favImageView: ImageView?= null
 
         init {
+            itemView.setOnClickListener(this)
             descriptionView = itemView.findViewById(R.id.tv_description)
             nameView = itemView.findViewById(R.id.tv_name)
             imageView = itemView.findViewById(R.id.iv_poster)
@@ -79,5 +81,18 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
             descriptionView?.text = movie.description
             nameView?.text = movie.name
         }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION){
+                listener!!.onItemClick(position)
+            }
+        }
     }
+
+    fun setMyListener(listener: OnItemClickListener)
+    {
+        this.listener = listener;
+    }
+
 }

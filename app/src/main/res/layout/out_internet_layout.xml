@@ -8,12 +8,12 @@
 
     <TextView
         android:id="@+id/text_view"
-        android:layout_width="235dp"
+        android:layout_width="250dp"
         android:layout_height="72dp"
         android:layout_marginTop="328dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text="По запросу “ваиывичуа” ничего не найдено"
+        android:text="Нам не удалось обработать ваш запрос. Попробуйте еще раз"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,5 +31,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_search" />
+        app:srcCompat="@drawable/ic_alert_triangle" />
 </androidx.constraintlayout.widget.ConstraintLayout>
