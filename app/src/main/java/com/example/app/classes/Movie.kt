@@ -1,8 +1,10 @@
 package com.example.app.classes
 
+import androidx.room.Entity
 import com.example.app.R
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "movie")
 class Movie  {
     var id: Int
     @SerializedName("title")

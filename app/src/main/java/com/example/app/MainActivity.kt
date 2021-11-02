@@ -4,7 +4,9 @@ package com.example.app
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -16,6 +18,9 @@ import com.example.app.api.Constants
 import com.example.app.api.SimpleApi
 import com.example.app.classes.Movie
 import com.example.app.classes.MoviesList
+import com.example.app.room.AppDatabase
+import com.example.app.room.MovieDao
+import com.example.app.room.MovieRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +33,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     //var lst = arrayListOf<Movie>()
     lateinit var recyclerView: RecyclerView
     lateinit var simpleApi: SimpleApi
+    lateinit var movieRepository : MovieRepository
     var refreshString = ""
 
     fun getPopular(simpleApi: SimpleApi) {
@@ -74,7 +80,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     for (i in 0..movies.size - 1) {
                         var movie = Movie(movies[i].id, movies[i].name,
                                 movies[i].description,
-                                movies[i].poster_path)
+                                movies[i].poster_path
+                        )
                         list.add(movie)
                         myRecyclerAdapter.notifyItemInserted(list.size - 1)
                     }
@@ -97,6 +104,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         //var movie = Movie(1,"test","test", "");
         myRecyclerAdapter = MyRecyclerAdapter(this, ArrayList<Movie>())
+
+        //Create repository
+        val noteDao = AppDatabase.getDatabase(application).movieDao()
+        movieRepository = MovieRepository(noteDao)
+
         getPopular(simpleApi)
 
         var bundle = Bundle()

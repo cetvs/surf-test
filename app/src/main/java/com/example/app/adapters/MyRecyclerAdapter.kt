@@ -1,6 +1,7 @@
 package com.example.app.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,9 +47,8 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
     }
 
     override fun onBindViewHolder(holder: MyRecyclerHolder, position: Int) {
-        val fragment: Movie = list[position]
-        holder.bind(fragment)
-
+        val movie: Movie = list[position]
+        holder.bind(movie)
     }
 
 
@@ -67,6 +67,13 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
             nameView = itemView.findViewById(R.id.tv_name)
             imageView = itemView.findViewById(R.id.iv_poster)
             favImageView = itemView.findViewById(R.id.iv_fav)
+
+//            favImageView?.setOnClickListener {
+//                if (favImageView?.getTag() as String == "unfav")
+//                    favImageView?.setImageResource(R.drawable.fav)
+//                else
+//                    favImageView?.setImageResource(R.drawable.unfav)
+//            }
         }
 
         fun bind(movie: Movie) {
@@ -80,12 +87,26 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
                     .into(imageView!!)
             descriptionView?.text = movie.description
             nameView?.text = movie.name
+
+            favImageView?.setOnClickListener {
+                if (movie.favorite == false) {
+                    favImageView?.setImageResource(R.drawable.fav)
+                    movie.favorite = true
+                }
+                else {
+                    favImageView?.setImageResource(R.drawable.unfav)
+                    movie.favorite = false
+                }
+            }
         }
 
         override fun onClick(v: View?) {
             val position = adapterPosition
+//            if (v?.getId() == R.id.imageView)
+//            {
+//                favImageView?.setImageResource(R.drawable.fav)
             if(position != RecyclerView.NO_POSITION){
-                listener!!.onItemClick(position)
+                listener!!.onItemClick( position)
             }
         }
     }

@@ -12,7 +12,6 @@
         android:layout_height="72dp"
         android:layout_marginTop="328dp"
         android:fontFamily="sans-serif"
-        android:gravity="center"
         android:text="По запросу “ваиывичуа” ничего не найдено"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,15 +20,4 @@
 
     </TextView>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="205dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_search" />
 </androidx.constraintlayout.widget.ConstraintLayout>
