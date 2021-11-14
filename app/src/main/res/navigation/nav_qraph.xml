@@ -6,7 +6,7 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.app.RecyclerFragment"
+        android:name="com.example.app.fragments.RecyclerFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_mainActivity"

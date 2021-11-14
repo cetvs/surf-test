@@ -89,14 +89,7 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
             nameView?.text = movie.name
 
             favImageView?.setOnClickListener {
-                if (movie.favorite == false) {
-                    favImageView?.setImageResource(R.drawable.fav)
-                    movie.favorite = true
-                }
-                else {
-                    favImageView?.setImageResource(R.drawable.unfav)
-                    movie.favorite = false
-                }
+                listener!!.onImageClick(movie, favImageView!!)
             }
         }
 
@@ -115,5 +108,6 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
     {
         this.listener = listener;
     }
+
 
 }

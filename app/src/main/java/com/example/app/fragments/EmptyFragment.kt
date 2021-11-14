@@ -1,24 +1,21 @@
-package com.example.app
+package com.example.app.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.app.adapters.MyRecyclerAdapter
+import com.example.app.R
 import com.example.app.classes.Movie
 
-class OutInternetFragment : Fragment(){
+class EmptyFragment : Fragment(){
     private lateinit var mContext: Context
     // lateinit var myRecyclerAdapter: MyRecyclerAdapter
     companion object{
-        fun getNewInstance(args: Bundle): OutInternetFragment{
-            val emptyFragment = OutInternetFragment()
+        fun getNewInstance(args: Bundle): EmptyFragment {
+            val emptyFragment = EmptyFragment()
             emptyFragment.arguments = args
             return emptyFragment
         }
@@ -39,8 +36,11 @@ class OutInternetFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
-        val view = inflater.inflate(R.layout.out_internet_layout, container, false)
+        val view = inflater.inflate(R.layout.empty_search, container, false)
+        var textView = view.findViewById<TextView>(R.id.text_view)
+        textView.setText("По запросу ${arguments?.get("bQueryString")} ничего не найдено")
         return view
     }
+
 
 }

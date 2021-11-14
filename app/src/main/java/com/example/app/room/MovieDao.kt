@@ -18,13 +18,22 @@ interface MovieDao {
 
     @Insert
     fun insertMovie(movie: Movie)
-//
-//    @Insert
-//    fun insertAll(vararg movie: Movie)
 
     @Query("DELETE FROM movie")
     fun deleteAll()
 
-    @Query("DELETE FROM movie WHERE movie.name LIKE  :searchQuery")
-    fun delete(searchQuery : String)
+    @Query("DELETE FROM movie WHERE movie.id = :id")
+    fun delete(id : Int)
+
+    @Query("SELECT * FROM movie WHERE movie.id = :id")
+    fun findMovie(id : Int): Movie? //: List<Movie>
+
+//    @Query("SELECT CASE movie.id\n" +
+//            "    WHEN :idQuery THEN 1\n" +
+//            "    else 0\n" +
+//            "END\n" +
+//            "FROM movie")
+//    fun IsfindMovie(idQuery : Int): Boolean
+
+
 }
