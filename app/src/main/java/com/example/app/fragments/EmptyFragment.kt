@@ -26,13 +26,6 @@ class EmptyFragment : Fragment(){
         mContext = context
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        var lst = arrayListOf<Movie>()
-        //myRecyclerAdapter = MyRecyclerAdapter(mContext, lst)
-
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {

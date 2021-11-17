@@ -19,9 +19,6 @@ interface SimpleApi {
     @GET("3/movie/{key}?api_key=461062f3ca455541c4c57750fcbf6759")
     fun getMovie(@Path("key") movieId : Int ): Call<Movie>
 
-    @GET("3/movie/550?api_key=461062f3ca455541c4c57750fcbf6759")
-    fun getMovies(): Call<Movie>
-
     @GET("3/search/movie?api_key=461062f3ca455541c4c57750fcbf6759")
     fun getMovieByName(@Query("query") query : String ): Call<MoviesList>
 

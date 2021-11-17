@@ -14,8 +14,6 @@ import com.example.app.api.Constants.Companion.Base_URL_Image
 import com.example.app.classes.Movie
 import java.io.Serializable
 
-
-//make MutableList
 class MyRecyclerAdapter(private val context: Context, private var list: ArrayList<Movie>,
                         var listener: OnItemClickListener? = null)
     : Serializable, RecyclerView.Adapter<MyRecyclerAdapter.MyRecyclerHolder>(){
@@ -67,13 +65,6 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
             nameView = itemView.findViewById(R.id.tv_name)
             imageView = itemView.findViewById(R.id.iv_poster)
             favImageView = itemView.findViewById(R.id.iv_fav)
-
-//            favImageView?.setOnClickListener {
-//                if (favImageView?.getTag() as String == "unfav")
-//                    favImageView?.setImageResource(R.drawable.fav)
-//                else
-//                    favImageView?.setImageResource(R.drawable.unfav)
-//            }
         }
 
         fun bind(movie: Movie) {
@@ -104,10 +95,7 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
         }
     }
 
-    fun setMyListener(listener: OnItemClickListener)
-    {
-        this.listener = listener;
-    }
+
 
 
 }

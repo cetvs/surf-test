@@ -11,19 +11,30 @@ import com.example.app.room.AppDatabase
 import com.example.app.room.MovieRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 
 class MovieViewModel(application: Application): AndroidViewModel(application) {
     private val repository: MovieRepository
 
     private val _movies = MutableLiveData<List<Movie>>()
-    var readAll: LiveData<List<Movie>>
-
+    var readAll: LiveData<List<Movie>> =  _movies
 
     init {
         val noteDao = AppDatabase.getDatabase(application).movieDao()
         repository = MovieRepository(noteDao)
-        readAll = repository.getAll()
+    }
+
+    fun makeSearch(string: String) {
+        viewModelScope.launch{
+            repository.makeSearch(_movies, string)
+        }
+    }
+
+    fun getPopular() {
+        viewModelScope.launch(Dispatchers.IO){
+            repository.getPopular(_movies)
+        }
     }
 
     fun addMovie(movie: Movie){
@@ -35,6 +46,12 @@ class MovieViewModel(application: Application): AndroidViewModel(application) {
     fun addMovies(lst: List<Movie>){
         viewModelScope.launch(Dispatchers.IO){
             repository.addMovies(lst)
+        }
+    }
+
+    fun deleteMovie(id: Int){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteMovie(id)
         }
     }
 

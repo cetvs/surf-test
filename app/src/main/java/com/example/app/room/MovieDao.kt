@@ -34,6 +34,4 @@ interface MovieDao {
 //            "END\n" +
 //            "FROM movie")
 //    fun IsfindMovie(idQuery : Int): Boolean
-
-
 }
