@@ -40,7 +40,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, OnItemClickListener {
     private lateinit var myRecyclerAdapter: MyRecyclerAdapter
     lateinit var simpleApi: SimpleApi
-    lateinit var movieRepository : MovieRepository
     lateinit var movieViewModel: MovieViewModel
     var refreshString = ""
 
@@ -49,20 +48,48 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, OnItem
         setContentView(R.layout.activity_main)
 
         movieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+        movieViewModel.readAll.observe(this, Observer {
+            if (it != null) {
+                if (it.isNotEmpty()) {
+                    myRecyclerAdapter.setData(ArrayList(it))
+
+                    var bundle = Bundle()
+                    bundle.putSerializable("bRecyclerAdapter", myRecyclerAdapter)
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.place_holder, RecyclerFragment.getNewInstance(bundle), "recyclerFragment")
+                            .commit()
+                }
+                else
+                {
+                    var bundle = Bundle()
+                    bundle.putString("bQueryString", refreshString)
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.place_holder, EmptyFragment.getNewInstance(bundle))
+                            .commit()
+                }
+            }
+            else
+            {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.place_holder, OutInternetFragment())
+                        .commit()
+            }
+        })
+
+        movieViewModel.getPopular()
 
         var retrofit : Retrofit=Retrofit.Builder().baseUrl(Constants.BASE_URL)
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build()
 
-        simpleApi= retrofit.create(SimpleApi::class.java)
+        simpleApi = retrofit.create(SimpleApi::class.java)
 
-        //var movie = Movie(1,"test","test", "");
         myRecyclerAdapter = MyRecyclerAdapter(this, ArrayList<Movie>(), this)
 
         var swipeContainer = findViewById<SwipeRefreshLayout>(R.id.swipe_container)
 
         swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            searchMovie(simpleApi, refreshString)
+            movieViewModel.makeSearch(refreshString)
             swipeContainer.setRefreshing(false)
         })
     }
@@ -79,13 +106,13 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, OnItem
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         refreshString = query!!
-        searchMovie(simpleApi, refreshString)
+        movieViewModel.makeSearch(refreshString)
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         refreshString = query!!
-        searchMovie(simpleApi, refreshString)
+        movieViewModel.makeSearch(refreshString)
         return true
     }
 
@@ -96,15 +123,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener, OnItem
     override fun onImageClick(movie: Movie, favImageView: ImageView) {
         if (movie.favorite == false) {
             movie.favorite = true
-            lifecycleScope.launch(Dispatchers.IO) {
-                movieRepository.addMovie(movie)
-            }
+            movieViewModel.addMovie(movie)
             favImageView?.setImageResource(R.drawable.fav)
         }
         else {
-            lifecycleScope.launch(Dispatchers.IO) {
-                movieRepository.deleteMovie(movie.id)
-            }
+            movieViewModel.deleteMovie(movie.id)
             movie.favorite = false
             favImageView?.setImageResource(R.drawable.unfav)
         }

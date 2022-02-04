@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--        tools:targetApi ='o'-->
 
     <item android:id="@+id/menu_search"
         android:title="@string/search"
@@ -12,5 +11,7 @@
         app:showAsAction="ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         />
+
+
 
 </menu>

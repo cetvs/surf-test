@@ -7,11 +7,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.app.fragments.RecyclerFragment"
-        android:label="MainFragment" >
-        <action
-            android:id="@+id/action_mainFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
-    </fragment>
+        android:label="MainFragment" />
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.app.MainActivity"
